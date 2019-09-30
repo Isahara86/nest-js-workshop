@@ -1,75 +1,156 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
-</p>
+# NestJS WorkShop
 
-[travis-image]: https://api.travis-ci.org/nestjs/nest.svg?branch=master
-[travis-url]: https://travis-ci.org/nestjs/nest
-[linux-image]: https://img.shields.io/travis/nestjs/nest/master.svg?label=linux
-[linux-url]: https://travis-ci.org/nestjs/nest
-  
-  <p align="center">A progressive <a href="http://nodejs.org" target="blank">Node.js</a> framework for building efficient and scalable server-side applications, heavily inspired by <a href="https://angular.io" target="blank">Angular</a>.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/dm/@nestjs/core.svg" alt="NPM Downloads" /></a>
-<a href="https://travis-ci.org/nestjs/nest"><img src="https://api.travis-ci.org/nestjs/nest.svg?branch=master" alt="Travis" /></a>
-<a href="https://travis-ci.org/nestjs/nest"><img src="https://img.shields.io/travis/nestjs/nest/master.svg?label=linux" alt="Linux" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#5" alt="Coverage" /></a>
-<a href="https://gitter.im/nestjs/nestjs?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=body_badge"><img src="https://badges.gitter.im/nestjs/nestjs.svg" alt="Gitter" /></a>
-<a href="https://opencollective.com/nest#backer"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec"><img src="https://img.shields.io/badge/Donate-PayPal-dc3d53.svg"/></a>
-  <a href="https://twitter.com/nestframework"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+This project is a workshop code with next technologies:
 
-## Description
+NestJS
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+class-transformer
 
-## Installation
+class-validator
 
-```bash
-$ npm install
-```
+TypeORM
 
-## Running the app
 
-```bash
-# development
-$ npm run start
+## Requirements
 
-# watch mode
-$ npm run start:dev
+1. `node js v10.x`
 
-# production mode
-$ npm run start:prod
-```
+2. `npm install -g @nestjs/cli` - install nest js global (after installation create at least one new project - `nest new my-nest-project` - if success then nestJS installed properly)
 
-## Test
+3. `postgreSQL/mariadb/mysql`
 
-```bash
-# unit tests
-$ npm run test
+    Alternative run database on docker: 
+    `docker run --name nestjs-demo -e POSTGRES_PASSWORD=111 -e POSTGRES_USER=postgres -e POSTGRES_DB=nestjs-demo -p 0.0.0.0:5432:5432/tcp -d postgres`
 
-# e2e tests
-$ npm run test:e2e
+4. Postman
 
-# test coverage
-$ npm run test:cov
-```
+## Step 0
 
-## Support
+1. Create new project `nest new my-nest-app`
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+2. Discover `package.json` (run scripts)
 
-## Stay in touch
+3. `npm run start:dev` - very convenient live reload auto-build server
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+4. Try localhost:3000 -> 'Hello World!'
 
-## License
+5. Play with input params `@Body()` `@Param()` `@Get/@Post/@Delete/...`
 
-  Nest is [MIT licensed](LICENSE).
+## Step 1
+
+1. Add new module `nest generate module todo` === `nest g mo todo`
+
+2. Add todo controller `nest generate controller todo` === `nest g co todo`
+
+3. Add todo service `nest g s todo`
+
+4. Add todo entity - create new file todo/todo.entity.ts
+
+5. Add create-todo.dto.ts
+
+6. Add route `@Post('create')`
+
+7. Create new todo
+
+## Step 2
+
+1. Discuss validation issue
+
+2. Add class-transformer & class-validator `npm install class-transformer class-validator`
+
+3. Add validation to DTO
+
+4. Try with validation
+
+5. Add default values `description = 'no description yet...';`
+
+6. Add class transformation
+
+## Step 3 
+
+1. Add typeORM and all engaged modules `npm install --save @nestjs/typeorm typeorm pg` || `npm install --save @nestjs/typeorm typeorm mysql`
+
+2. Add typeORM connect to app.module
+ 
+    ```typescript
+    import { Module } from '@nestjs/common';
+    import { AppController } from './app.controller';
+    import { AppService } from './app.service';
+    import { TodoModule } from './todo/todo.module';
+    import { TypeOrmModule } from '@nestjs/typeorm';
+
+    @Module({
+      imports: [
+        TypeOrmModule.forRoot({
+          type: 'postgres',
+          host: 'localhost',
+          port: 5432,
+          username: 'postgres',
+          password: '111',
+          database: 'nestjs-demo',
+          entities: [ __dirname + '/**/*.entity{.ts,.js}' ],
+          synchronize: true,
+        }),
+        TodoModule,
+      ],
+      controllers: [ AppController ],
+      providers: [ AppService ],
+    })
+    export class AppModule {
+    }
+    ```
+
+3. Add typeORM to to todo.module 
+
+    ```typescript
+    import { Module } from '@nestjs/common';
+    import { TodoService } from './todo.service';
+    import { TodoController } from './todo.controller';
+    import { TypeOrmModule } from '@nestjs/typeorm';
+    import { Todo } from './todo.entity';
+    
+    @Module({
+      imports: [
+        TypeOrmModule.forFeature([ Todo ]),
+      ],
+      controllers: [ TodoController ],
+      providers: [ TodoService ],
+    })
+    export class TodoModule {
+    }
+    ```
+
+4. Inject todo repository to todo.service
+
+    ```typescript
+    constructor(
+        @InjectRepository(Todo)
+        private readonly todoRepository: Repository<Todo>,
+      ) {}
+    ```
+
+5. Use DB
+
+6. Show migrations `synchronize: true,`
+
+    ```typescript
+    import { BaseEntity, Column, Entity } from 'typeorm';
+    
+    @Entity()
+    export class Todo extends BaseEntity {
+    
+      @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+      createDate: string;
+    }
+    ```
+
+## Step 4 
+
+Questions
+
+
+
+
+
+
+
