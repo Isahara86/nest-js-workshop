@@ -1,6 +1,6 @@
 # NestJS WorkShop
 
-This project is a workshop code with next technologies:
+This project is a workshop code for the next technologies:
 
 NestJS
 
