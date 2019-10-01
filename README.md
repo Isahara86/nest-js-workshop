@@ -34,7 +34,7 @@ This project is a workshop code for the next technologies:
 
 4. Try localhost:3000 -> 'Hello World!'
 
-5. Play with input params `@Body()` `@Param()` `@Get/@Post/@Delete/...`
+5. Play with input params `@Body()` `@Query()` `@Param()` `@Get/@Post/@Delete/...`
 
 ## Step 1
 
