@@ -2,13 +2,13 @@
 
 This project is a workshop code for the next technologies:
 
-NestJS
+<a href="https://github.com/nestjs/nest">NestJS</a>
 
-class-transformer
+<a href="https://github.com/typestack/class-transformer">class-transformer</a>
 
-class-validator
+<a href="https://github.com/typestack/class-validator">class-validator</a>
 
-TypeORM
+<a href="https://github.com/typeorm/typeorm">TypeORM</a>
 
 
 ## Requirements
